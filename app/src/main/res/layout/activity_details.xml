@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 
     <FrameLayout
         android:id="@+id/bottom_sheet"
@@ -12,7 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_sheet_roundness"
         app:behavior_peekHeight="600dp"
-        android:minHeight="200dp"
+        android:minHeight="100dp"
         android:layout_margin="10dp"
 
         android:elevation="8dp"
