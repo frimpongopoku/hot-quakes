@@ -28,6 +28,12 @@ public class EarthquakeViewModel extends ViewModel {
         item.setDepth(45.6);
         item.setMagnitude(7.0);
         earthquakes.add(item);
+        EarthquakeItem item2 = new EarthquakeItem();
+        item2.setTitle("Earth quake in Portugal");
+        item2.setPubDate("1st February 1992");
+        item2.setDepth(5.6);
+        item2.setMagnitude(18.0);
+        earthquakes.add(item2);
         earthquakeList.setValue(earthquakes);
     }
 }
