@@ -16,18 +16,22 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <SearchView
-                android:id="@+id/search_view"
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:src="@drawable/search_icon_white_24"/>
+            <EditText
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:iconifiedByDefault="false"
-                app:searchIcon="@drawable/search_icon_white_24"
-                android:queryHint="Search"
-                app:queryBackground="@android:color/transparent"
-                app:iconifiedByDefault="false"
-                app:searchViewStyle="@style/SearchViewStyle"
-               />
+                android:hint="Search"
+                android:layout_weight="0.8"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/borderless"
+                android:layout_height="wrap_content" />
+
 
             <ImageButton
                 android:id="@+id/date_picker_button"
