@@ -1,57 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
     >
     <data>
         <variable
             name="earthquake"
             type="com.frimpong.hot_quakes.EarthquakeItem" />
     </data>
-    <androidx.cardview.widget.CardView
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        card_view:cardElevation="4dp"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardUseCompatPadding="true">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackground"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:padding="20dp"
 
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/nameTextView"
-            android:layout_width="0dp"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:id="@+id/country_name_text"
+            android:textFontWeight="700"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{earthquake.title}" />
+            android:textColor="@color/black"
+            android:text="@{earthquake.title}">
+        </TextView>
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:id="@+id/start_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/app_red"
+            android:text="@{earthquake.pubDate}">
+        </TextView>
+        <TextView
+            android:id="@+id/mag_and_depth_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AFAFAF"
 
-        <TextView
-            android:id="@+id/dateTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{earthquake.pubDate}" />
+            android:textSize="18sp"
+            android:text="@{`Magnitude `+ String.valueOf(earthquake.magnitude)+`, Depth `+String.valueOf(earthquake.depth)}">
+        </TextView>
 
-        <TextView
-            android:id="@+id/depthTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{String.valueOf(earthquake.depth)}" />
 
-        <TextView
-            android:id="@+id/magnitudeTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{String.valueOf(earthquake.magnitude)}" />
 
     </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EFEFEF"/>
+    </LinearLayout>
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:foreground="?attr/selectableItemBackground"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="0dp"-->
+<!--        android:layout_marginBottom="1dp"-->
+<!--        android:layout_marginLeft="2dp"-->
+<!--        android:layout_marginRight="2dp"-->
+<!--        card_view:cardElevation="4dp"-->
+<!--        card_view:cardCornerRadius="3dp"-->
+<!--        card_view:cardUseCompatPadding="true">-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="16dp">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/nameTextView"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@{earthquake.title}" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/dateTextView"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@{earthquake.pubDate}" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/depthTextView"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@{String.valueOf(earthquake.depth)}" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/magnitudeTextView"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@{String.valueOf(earthquake.magnitude)}" />-->
+
+<!--    </LinearLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
 </layout>
