@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private int endYear, endMonth, endDay;
     // Create a Calendar instance
     Calendar calendar = Calendar.getInstance();
+    ProgressBar progressBar;
+    RecyclerView recyclerView;
 
 
     EarthquakeViewModel earthquakeViewModel;
@@ -42,15 +45,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         initializeToolbar();
         setupRecyclerView();
+        progressBar = findViewById(R.id.progressBar);
 
     }
 
     public void setupRecyclerView(){
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final EarthquakeListAdapter adapter = new EarthquakeListAdapter(this);
@@ -67,6 +69,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
     public void testClick(View v){
+        int visi = progressBar.getVisibility();
+        if (visi == View.VISIBLE) {
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }else {
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
 
     }
 
