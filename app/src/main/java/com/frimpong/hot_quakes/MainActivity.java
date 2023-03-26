@@ -11,6 +11,7 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -20,7 +21,16 @@ import android.widget.SearchView;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
+    private static final int START_DATE_PICKER_ID = 0;
+    private static final int END_DATE_PICKER_ID = 1;
+    private int selectedDatePickerId = START_DATE_PICKER_ID;
+    private int startYear, startMonth, startDay;
+    private int endYear, endMonth, endDay;
+    // Create a Calendar instance
+    Calendar calendar = Calendar.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +59,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void showDatePickerDialog() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                // Handle the selected date
-            }
-        }, year, month, day);
-        datePickerDialog.show();
+    private void showStartDatePickerDialog() {
+        showDatePickerDialog(startYear, startMonth, startDay);
     }
 
+    private void showEndDatePickerDialog() {
+        showDatePickerDialog(endYear, endMonth, endDay);
+    }
+
+    private void showDatePickerDialog(int year, int month, int day) {
+        calendar.set(Calendar.YEAR, 2023);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        datePickerDialog.show();
+    }
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        if (selectedDatePickerId == START_DATE_PICKER_ID) {
+            Log.d("PRINTING","You just chose date for start date");
+            startYear = year;
+            startMonth = month;
+            startDay = dayOfMonth;
+            selectedDatePickerId = END_DATE_PICKER_ID;
+            showEndDatePickerDialog();
+        } else if (selectedDatePickerId == END_DATE_PICKER_ID) {
+            Log.d("PRINTING", "You just chose date for END DATE GEE, TOO COOL");
+            endYear = year;
+            endMonth = month;
+            endDay = dayOfMonth;
+
+            // Do something with the selected dates here
+        }
+    }
 
 
     public void  initializeToolbar(){
@@ -76,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog();
+                showStartDatePickerDialog();
             }
         });
     }
