@@ -40,7 +40,6 @@ public class EarthquakeListAdapter extends RecyclerView.Adapter<EarthquakeListAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final EarthquakeItem earthquake;
         EarthquakeItem earthquakeItem = earthquakes.get(position);
         holder.binding.setVariable(BR.earthquake, earthquakeItem);
         holder.binding.executePendingBindings();

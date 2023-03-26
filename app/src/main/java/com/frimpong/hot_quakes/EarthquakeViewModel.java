@@ -18,6 +18,12 @@ public class EarthquakeViewModel extends ViewModel {
         return earthquakeList;
     }
 
+    public void setEarthquakes(List<EarthquakeItem> newEarthquakeList) {
+        earthquakeList.setValue(newEarthquakeList);
+    }
+
+
+
     private void loadEarthquakes() {
         // Fetch XML data from website and parse it into a list of Earthquake objects
         List<EarthquakeItem> earthquakes = new ArrayList<>();

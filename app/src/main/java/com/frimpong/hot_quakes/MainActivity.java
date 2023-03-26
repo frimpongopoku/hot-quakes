@@ -2,6 +2,7 @@ package com.frimpong.hot_quakes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
+import com.frimpong.hot_quakes.databinding.ActivityMainBinding;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -31,12 +34,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     // Create a Calendar instance
     Calendar calendar = Calendar.getInstance();
 
+    LoadingModel loading = new LoadingModel();
+    ActivityMainBinding binding;
+    EarthquakeViewModel earthquakeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // Bind the loadingModel instance to the layout
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setLoading(loading);
         initializeToolbar();
         setupRecyclerView();
 
@@ -49,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         final EarthquakeListAdapter adapter = new EarthquakeListAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        EarthquakeViewModel earthquakeViewModel = new ViewModelProvider(this).get(EarthquakeViewModel.class);
+        earthquakeViewModel = new ViewModelProvider(this).get(EarthquakeViewModel.class);
         earthquakeViewModel.getEarthquakes().observe(this, new Observer<List<EarthquakeItem>>() {
             @Override
             public void onChanged(List<EarthquakeItem> earthquakes) {
@@ -58,6 +66,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
     }
 
+
+    public void testClick(View v){
+        List<EarthquakeItem> list = earthquakeViewModel.getEarthquakes().getValue();
+        EarthquakeItem item = new EarthquakeItem();
+        item.setTitle("Earthquake in Germany");
+        item.setPubDate("1st February 4400");
+        item.setDepth(45.6);
+        item.setMagnitude(7.0);
+        list.add(item);
+        earthquakeViewModel.setEarthquakes(list);
+//        Boolean b = !loading.isLoading();
+//        loading.setLoading(b);
+//        Log.d("PRINTING", "testClick: Just clicked you still! "+b);
+//        binding.notifyPropertyChanged(BR.loading);
+    }
 
     private void showStartDatePickerDialog() {
         showDatePickerDialog(startYear, startMonth, startDay);
