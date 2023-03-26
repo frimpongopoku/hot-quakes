@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
-    <data>
-        <import type="android.view.View" />
-        <variable
-            name="loading"
-            type="com.frimpong.hot_quakes.LoadingModel"/>
-    </data>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-       >
+
         <include layout="@layout/custom_toolbar" />
 
         <Button
@@ -29,18 +24,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="@{loading.isLoading() ? View.VISIBLE : View.GONE}" />
-
 
             />
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="70dp"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:visibility="@{loading.isLoading() ? View.GONE : View.VISIBLE}"
                 android:layout_height="match_parent"/>
         </FrameLayout>
 
 
-    </LinearLayout>
-</layout>
+</LinearLayout>
