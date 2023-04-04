@@ -47,26 +47,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         initializeToolbar();
         setupRecyclerView();
         progressBar = findViewById(R.id.progressBar);
-//        fetchData();
 
     }
 
 
-//    public void fetchData(){
-//        InternetExplorer task = (InternetExplorer) new InternetExplorer().execute();
-//        task.onComplete = new AfterEffect() {
-//            @Override
-//            public void sendResponse(String response) {
-//                xmlHandler = new CustomXMLHandler(response);
-//                xmlHandler.responseInterface = new XMLDecoded() {
-//                    @Override
-//                    public void onItemsRetrieved(List<EarthquakeItem> items) {
-//
-//                    }
-//                };
-//            }
-//        };
-//    }
     public void setupRecyclerView(){
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -78,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         earthquakeViewModel.getEarthquakes().observe(this, new Observer<List<EarthquakeItem>>() {
             @Override
             public void onChanged(List<EarthquakeItem> earthquakes) {
+                if(earthquakes.size() > 0) {
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
                 adapter.setEarthquakes(earthquakes);
             }
         });

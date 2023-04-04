@@ -46,6 +46,15 @@ public class EarthquakeListAdapter extends RecyclerView.Adapter<EarthquakeListAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra(Constants.TITLE,earthquakeItem.getTitle());
+                intent.putExtra(Constants.MAGNITUDE,earthquakeItem.getMagnitude());
+                intent.putExtra(Constants.DEPTH,earthquakeItem.getDepth());
+                intent.putExtra(Constants.LONG,earthquakeItem.getLongitude());
+                intent.putExtra(Constants.LAT,earthquakeItem.getLatitude());
+                intent.putExtra(Constants.DESC,earthquakeItem.getDescription());
+                intent.putExtra(Constants.PUB_DATE,earthquakeItem.getPubDate());
+                context.startActivity(intent);
                 Log.d("PRINTING", "I just clicked an item what do you think meerhn!");
                 // TODO: when an item is clicked what should happen here
             }

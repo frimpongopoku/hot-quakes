@@ -8,14 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
         <include layout="@layout/custom_toolbar" />
-
-        <Button
-            android:onClick="testClick"
-            android:text="Click Me Quick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></Button>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -26,10 +19,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="visible"
-
             />
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:visibility="gone"
