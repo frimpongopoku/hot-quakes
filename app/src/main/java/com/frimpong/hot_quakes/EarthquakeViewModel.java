@@ -33,6 +33,7 @@ public class EarthquakeViewModel extends ViewModel {
                 xmlHandler = new CustomXMLHandler(response, new XMLDecoded() {
                     @Override
                     public void onItemsRetrieved(List<EarthquakeItem> items) {
+                        if (items == null) return;
                         earthquakeList.setValue(items);
                     }
                 });
