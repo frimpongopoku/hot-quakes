@@ -37,9 +37,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     Calendar calendar = Calendar.getInstance();
     ProgressBar progressBar;
     RecyclerView recyclerView;
-
-
     EarthquakeViewModel earthquakeViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +47,26 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         initializeToolbar();
         setupRecyclerView();
         progressBar = findViewById(R.id.progressBar);
+//        fetchData();
 
     }
 
+
+//    public void fetchData(){
+//        InternetExplorer task = (InternetExplorer) new InternetExplorer().execute();
+//        task.onComplete = new AfterEffect() {
+//            @Override
+//            public void sendResponse(String response) {
+//                xmlHandler = new CustomXMLHandler(response);
+//                xmlHandler.responseInterface = new XMLDecoded() {
+//                    @Override
+//                    public void onItemsRetrieved(List<EarthquakeItem> items) {
+//
+//                    }
+//                };
+//            }
+//        };
+//    }
     public void setupRecyclerView(){
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

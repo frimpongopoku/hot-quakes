@@ -3,11 +3,11 @@ package com.frimpong.hot_quakes;
 import androidx.annotation.NonNull;
 
 public class EarthquakeItem {
-    private String title;
-    private String description;
-    private String url;
-    private String pubDate;
-    private String category;
+    private String title ="";
+    private String description ="";
+    private String url ="";
+    private String pubDate="";
+    private String category="";
     private Double latitude;
     private Double longitude;
 
@@ -16,6 +16,13 @@ public class EarthquakeItem {
 
     public EarthquakeItem() {
     }
+    public EarthquakeItem(String title, String desc, String pubDate, String link) {
+        this.title = title;
+        this.description = desc;
+        this.pubDate = pubDate;
+        this.url = link;
+    }
+
 
     public String getTitle() {
         return title;
@@ -62,6 +69,7 @@ public class EarthquakeItem {
     }
 
     public String getDescription() {
+
         return description;
     }
 
@@ -92,7 +100,7 @@ public class EarthquakeItem {
     @NonNull
     @Override
     public String toString() {
-        return this.title +"\n" + this.description + "\n" + this.category+"\n"+String.valueOf(this.latitude)+", "+String.valueOf(this.longitude)+"\n";
+        return this.title +"\n" + this.description + "\n" + this.depth + ", "+this.magnitude+"\n"+this.latitude+", "+this.longitude+"\n";
     }
 }
 
