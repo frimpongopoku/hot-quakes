@@ -29,6 +29,7 @@
             <TextView
                 android:layout_marginTop="15dp"
                 android:textSize="18sp"
+                android:textAppearance="@style/CardView.Dark"
                 android:textFontWeight="700"
                 android:textColor="@color/white"
                 android:layout_centerHorizontal="true"

@@ -1,5 +1,6 @@
 package com.frimpong.hot_quakes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -14,16 +15,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements  OnMapReadyCallback {
 
     private MapView mapView;
     private GoogleMap map;
     EarthquakeItem earthquakeItem;
     ImageButton backButton;
+
+    TextView description, dateText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +35,10 @@ public class DetailsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         backButton = findViewById(R.id.back_button);
         setSupportActionBar(toolbar);
-//        initializeMap(savedInstanceState);
         retrievePassedItem();
+        initializeMap(savedInstanceState);
+        inflate();
 
-        System.out.println(earthquakeItem);
-        TextView title = findViewById(R.id.page_title);
-        title.setText(earthquakeItem.getTitle());
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,28 +49,21 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
+    public void inflate(){
+        TextView title = findViewById(R.id.page_title);
+        title.setText(earthquakeItem.getTitle());
+        description = findViewById(R.id.description);
+        dateText = findViewById(R.id.dateText);
+        description.setText(earthquakeItem.getDescription());
+        dateText.setText(earthquakeItem.getPubDate());
+    }
+
 
     public void initializeMap(Bundle savedInstanceState){
         // Initialize the map view
-//        mapView = findViewById(R.id.map_view);
-//        mapView.onCreate(savedInstanceState);
-//
-//        // Get the GoogleMap object
-//        mapView.getMapAsync(new OnMapReadyCallback() {
-//            @Override
-//            public void onMapReady(GoogleMap googleMap) {
-//                map = googleMap;
-//                // Add a marker to the map at a specific location
-//                LatLng location = new LatLng(37.7749, -122.4194);
-//                MarkerOptions markerOptions = new MarkerOptions()
-//                        .position(location)
-//                        .title("Marker Title");
-//                map.addMarker(markerOptions);
-//                // Move the camera to the marker location
-//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f));
-//            }
-//        });
-
+        mapView = findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
     }
 
     public void retrievePassedItem(){
@@ -92,29 +87,42 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mapView.onResume();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mapView.onPause();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mapView.onDestroy();
-//    }
-//
-//    @Override
-//    public void onLowMemory() {
-//        super.onLowMemory();
-//        mapView.onLowMemory();
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
 
 
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
+        map = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng coords = new LatLng(earthquakeItem.getLatitude(), earthquakeItem.getLongitude());
+        map.addMarker(new MarkerOptions()
+                .position(coords)
+                .title("Marker in Sydney"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(coords));
+
+    }
 }

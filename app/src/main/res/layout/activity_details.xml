@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DetailsActivity">
     <include layout="@layout/detail_activity_toolbar" />
 
-<!--    <com.google.android.gms.maps.MapView-->
-<!--        android:id="@+id/map_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
-
-
-    <FrameLayout
-        android:id="@+id/bottom_sheet"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bottom_sheet_roundness"
-        android:layout_margin="10dp"
-        android:elevation="8dp"
-        app:behavior_peekHeight="400dp"
-        android:minHeight="100dp"
-        app:behavior_hideable="false"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-        <!-- Content for bottom sheet here -->
-        <RelativeLayout
-            android:padding="10dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <View
+            <LinearLayout
+                android:padding="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="700"
+                android:textAppearance="@style/CardView.Dark"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:text="DESCRIPTION" />
 
-                android:layout_centerHorizontal="true"
-                android:background="@android:color/darker_gray"
-                android:layout_width="200dp"
-                android:layout_height="5dp" />
-
-        </RelativeLayout>
-
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="700"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                android:text="This is going to be where all the description is innit" />
+            <TextView
+                android:textAppearance="@style/CardView.Dark"
+                android:id="@+id/dateText"
+                android:textColor="@color/app_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="700"
+                android:textSize="12sp"
+                android:layout_marginBottom="10dp"
+                android:text="..." />
+            </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:layout_marginStart="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Title"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Age"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Beginning"/>
+                android:textFontWeight="700"
+                android:textAppearance="@style/CardView.Dark"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:text="VIEW ON MAP" />
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp" />
         </LinearLayout>
 
-    </FrameLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
