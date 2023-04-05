@@ -28,6 +28,10 @@ public class EarthquakeViewModel extends ViewModel {
         earthquakeList.setValue(newEarthquakeList);
     }
 
+    public void reset(){
+        earthquakeList.setValue(dataBank);
+    }
+
 
     public List<EarthquakeItem> searchEarthquakesByTitle(String searchText) {
         List<EarthquakeItem> matchingEarthquakes = new ArrayList<>();
@@ -45,9 +49,8 @@ public class EarthquakeViewModel extends ViewModel {
         List<EarthquakeItem> earthquakes = dataBank;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
-            Date start = new GregorianCalendar(startDate[0], startDate[1] - 1, startDate[2]).getTime();
-            Date end = new GregorianCalendar(endDate[0], endDate[1] - 1, endDate[2]).getTime();
-
+            Date start = new GregorianCalendar(startDate[0], startDate[1] , startDate[2]).getTime();
+            Date end = new GregorianCalendar(endDate[0], endDate[1] , endDate[2]).getTime();
             for (EarthquakeItem item : earthquakes) {
                 Date itemDate = sdf.parse(item.getPubDate());
                 if (itemDate.compareTo(start) >= 0 && itemDate.compareTo(end) <= 0) {

@@ -26,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     EditText searchBox;
     // Set a delay time (in milliseconds) for the debounce function
     private final int debounceDelay = 500;
+    FloatingActionButton clearButton;
 
 
     @Override
@@ -56,10 +59,22 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         initializeToolbar();
         setupSearchBox();
         setupRecyclerView();
+        setupClearButton();
         progressBar = findViewById(R.id.progressBar);
 
     }
 
+
+    public void setupClearButton(){
+        clearButton = (FloatingActionButton) findViewById(R.id.clearButton);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                earthquakeViewModel.reset();
+                clearButton.setVisibility(View.GONE);
+            }
+        });
+    }
 
     private final Runnable runnable = new Runnable() {
         @Override
@@ -74,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void searchByDate (int[] start , int[] end) {
         List<EarthquakeItem> foundItems = earthquakeViewModel.searchByDate(start, end);
         earthquakeViewModel.setEarthquakes(foundItems);
+        clearButton.setVisibility(View.VISIBLE);
 
     }
     public void searchByText (String text) {
@@ -183,7 +199,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             int[] startArr = new int[] {startYear, startMonth, startDay};
             int[] endArr = new int[] {year, month, dayOfMonth};
             searchByDate(startArr, endArr);
-            // Do something with the selected dates here
+            selectedDatePickerId = START_DATE_PICKER_ID;
+
         }
     }
 

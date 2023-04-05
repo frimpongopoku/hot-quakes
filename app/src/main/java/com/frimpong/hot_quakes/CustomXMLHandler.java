@@ -39,15 +39,18 @@ public class CustomXMLHandler {
         String depth = descArr[descArr.length-2];
         item = new EarthquakeItem(title, desc,pubDate,url);
         Double mag=0.0, dep = 0.0;
+        System.out.println(desc);
         if(magnitude != null && !magnitude.isEmpty()){
-            // Before split looks like this:  Magnitude: 6.8
-             mag = Double.valueOf(magnitude.split(":")[1]);
+            // Before split looks like this:  "Magnitude: 6.8"
+                String val = magnitude.split(":")[1];
+                if (!val.trim().isEmpty())mag = Double.valueOf(val);
         }
         if(depth != null && !depth.isEmpty()){
-            // before split, looks like this: Depth: 65 km
+            // before split, looks like this: "Depth: 65 km"
             String last = depth.split(":")[1];
             last = last.trim();
-             dep = Double.valueOf(last.split(" ")[0]);// before split looks like this: 56 km
+            String val = last.split(" ")[0];
+            if (!val.trim().isEmpty()) dep = Double.valueOf(val);// before split looks like this: "56 km"
         }
         item.setMagnitude(mag);
         item.setDepth(dep);
