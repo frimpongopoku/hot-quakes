@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -50,17 +51,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     // Set a delay time (in milliseconds) for the debounce function
     private final int debounceDelay = 500;
     FloatingActionButton clearButton;
+    TextView notFound;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.progressBar);
+        notFound = findViewById(R.id.notFound);
         initializeToolbar();
         setupSearchBox();
         setupRecyclerView();
         setupClearButton();
-        progressBar = findViewById(R.id.progressBar);
+
 
     }
 
@@ -87,14 +91,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     };
 
     public void searchByDate (int[] start , int[] end) {
+        notFound.setVisibility(View.GONE);
         List<EarthquakeItem> foundItems = earthquakeViewModel.searchByDate(start, end);
         earthquakeViewModel.setEarthquakes(foundItems);
         clearButton.setVisibility(View.VISIBLE);
+        if (foundItems.size() == 0) notFound.setVisibility(View.VISIBLE);
 
     }
     public void searchByText (String text) {
+        notFound.setVisibility(View.GONE);
         List<EarthquakeItem> foundItems = earthquakeViewModel.searchEarthquakesByTitle(text);
         earthquakeViewModel.setEarthquakes(foundItems);
+        if (foundItems.size() == 0) notFound.setVisibility(View.VISIBLE);
 
     }
 
