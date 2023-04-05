@@ -4,8 +4,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 public class EarthquakeViewModel extends ViewModel {
     private MutableLiveData<List<EarthquakeItem>> earthquakeList;
@@ -33,6 +38,27 @@ public class EarthquakeViewModel extends ViewModel {
             }
         }
         return matchingEarthquakes;
+    }
+
+    public List<EarthquakeItem> searchByDate(int[] startDate, int[] endDate) {
+        List<EarthquakeItem> results = new ArrayList<>();
+        List<EarthquakeItem> earthquakes = dataBank;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
+            Date start = new GregorianCalendar(startDate[0], startDate[1] - 1, startDate[2]).getTime();
+            Date end = new GregorianCalendar(endDate[0], endDate[1] - 1, endDate[2]).getTime();
+
+            for (EarthquakeItem item : earthquakes) {
+                Date itemDate = sdf.parse(item.getPubDate());
+                if (itemDate.compareTo(start) >= 0 && itemDate.compareTo(end) <= 0) {
+                    results.add(item);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return results;
     }
     private void loadEarthquakes() {
         // Fetch XML data from website and parse it into a list of Earthquake objects

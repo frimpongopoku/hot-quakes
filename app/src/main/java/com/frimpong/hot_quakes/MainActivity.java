@@ -71,6 +71,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
     };
 
+    public void searchByDate (int[] start , int[] end) {
+        List<EarthquakeItem> foundItems = earthquakeViewModel.searchByDate(start, end);
+        earthquakeViewModel.setEarthquakes(foundItems);
+
+    }
     public void searchByText (String text) {
         List<EarthquakeItem> foundItems = earthquakeViewModel.searchEarthquakesByTitle(text);
         earthquakeViewModel.setEarthquakes(foundItems);
@@ -137,17 +142,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void showStartDatePickerDialog() {
-        showDatePickerDialog(startYear, startMonth, startDay);
+        showDatePickerDialog(startYear, startMonth, startDay,null);
     }
 
-    private void showEndDatePickerDialog() {
-        showDatePickerDialog(endYear, endMonth, endDay);
+    private void showEndDatePickerDialog(int[] minValue) {
+        showDatePickerDialog(endYear, endMonth, endDay, minValue);
     }
 
-    private void showDatePickerDialog(int year, int month, int day) {
+    private void showDatePickerDialog(int year, int month, int day, int[] minValue) {
         calendar.set(Calendar.YEAR, 2023);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, year, month, day);
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        Calendar cal = Calendar.getInstance();
+        if (minValue !=null){
+            cal.set(Calendar.YEAR, minValue[0]);
+            cal.set(Calendar.MONTH, minValue[1]);
+            cal.set(Calendar.DAY_OF_MONTH, minValue[2]);
+            datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+        } else {
+            // set the minimum date to be 2020
+            cal.set(Calendar.YEAR, 2020);
+            datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+        }
         datePickerDialog.show();
     }
     @Override
@@ -158,13 +174,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             startMonth = month;
             startDay = dayOfMonth;
             selectedDatePickerId = END_DATE_PICKER_ID;
-            showEndDatePickerDialog();
+            showEndDatePickerDialog(new int[] {year,month,dayOfMonth});
         } else if (selectedDatePickerId == END_DATE_PICKER_ID) {
             Log.d("PRINTING", "You just chose date for END DATE GEE, TOO COOL");
             endYear = year;
             endMonth = month;
             endDay = dayOfMonth;
-
+            int[] startArr = new int[] {startYear, startMonth, startDay};
+            int[] endArr = new int[] {year, month, dayOfMonth};
+            searchByDate(startArr, endArr);
             // Do something with the selected dates here
         }
     }
