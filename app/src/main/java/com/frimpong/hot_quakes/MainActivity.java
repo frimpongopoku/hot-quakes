@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onClick(View view) {
                 earthquakeViewModel.reset();
                 clearButton.setVisibility(View.GONE);
+                notFound.setVisibility(View.GONE);
             }
         });
     }
