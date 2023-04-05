@@ -31,7 +31,7 @@ public class DetailsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         backButton = findViewById(R.id.back_button);
         setSupportActionBar(toolbar);
-        initializeMap(savedInstanceState);
+//        initializeMap(savedInstanceState);
         retrievePassedItem();
 
         System.out.println(earthquakeItem);
@@ -47,15 +47,10 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-    public void  initializeToolbar(){
-        // Initialize the Toolbar
 
-
-
-}
     public void initializeMap(Bundle savedInstanceState){
         // Initialize the map view
-        mapView = findViewById(R.id.map_view);
+//        mapView = findViewById(R.id.map_view);
 //        mapView.onCreate(savedInstanceState);
 //
 //        // Get the GoogleMap object

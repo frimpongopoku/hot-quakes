@@ -13,9 +13,13 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -38,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     ProgressBar progressBar;
     RecyclerView recyclerView;
     EarthquakeViewModel earthquakeViewModel;
+    private final Handler handler = new Handler();
+
+    EditText searchBox;
+    // Set a delay time (in milliseconds) for the debounce function
+    private final int debounceDelay = 500;
 
 
     @Override
@@ -45,10 +54,53 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeToolbar();
+        setupSearchBox();
         setupRecyclerView();
         progressBar = findViewById(R.id.progressBar);
 
     }
+
+
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Perform action after debounce time
+            // Example: Do a search based on the text in the EditText
+            String searchText = searchBox.getText().toString();
+            searchByText(searchText);
+        }
+    };
+
+    public void searchByText (String text) {
+        List<EarthquakeItem> foundItems = earthquakeViewModel.searchEarthquakesByTitle(text);
+        earthquakeViewModel.setEarthquakes(foundItems);
+
+    }
+
+    public void setupSearchBox(){
+        searchBox = findViewById(R.id.search_box);
+        searchBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Cancel any pending debounce action
+                handler.removeCallbacks(runnable);
+
+                // Schedule a new debounce action
+                handler.postDelayed(runnable, debounceDelay);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Do nothing
+            }
+        });
+    }
+
 
 
     public void setupRecyclerView(){
