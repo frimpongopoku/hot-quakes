@@ -65,20 +65,22 @@ public class EarthquakeViewModel extends ViewModel {
     }
     private void loadEarthquakes() {
         // Fetch XML data from website and parse it into a list of Earthquake objects
-        InternetExplorer task = (InternetExplorer) new InternetExplorer().execute();
-        task.onComplete = new AfterEffect() {
+
+        InternetExplorer explorer =  new InternetExplorer(InternetExplorer.EARTH_QUAKE_URL, new AfterEffect() {
             @Override
             public void sendResponse(String response) {
                 xmlHandler = new CustomXMLHandler(response, new XMLDecoded() {
                     @Override
                     public void onItemsRetrieved(List<EarthquakeItem> items) {
                         if (items == null) return;
-                        earthquakeList.setValue(items);
+                        earthquakeList.postValue(items);
                         dataBank = items;
                     }
                 });
 
             }
-        };
+        });
+        explorer.fetchDataInBackground();
+
     }
 }

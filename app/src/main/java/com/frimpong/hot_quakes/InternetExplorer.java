@@ -7,48 +7,50 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class InternetExplorer extends AsyncTask {
+public class InternetExplorer {
+    public static final String EARTH_QUAKE_URL = "http://quakes.bgs.ac.uk/feeds/WorldSeismology.xml";
     public AfterEffect onComplete;
-    public InternetExplorer(){
+    String url;
+
+    public InternetExplorer(String url, AfterEffect onComplete){
+        this.url = url;
         this.onComplete = onComplete;
     }
 
-    @Override
-    protected Object doInBackground(Object[] objects) {
-        HttpURLConnection urlConnection = null;
+    public void fetchDataInBackground() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection urlConnection = null;
 
-        try {
-            URL url = new URL("http://quakes.bgs.ac.uk/feeds/WorldSeismology.xml");
-            urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    URL urlObj = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObj.openConnection();
+                    int code = urlConnection.getResponseCode();
 
-            int code = urlConnection.getResponseCode();
-            if (code !=  200) {
-                // Use your error interface in here
-                throw new IOException("Invalid response from server: " + code);
+                    if (code != 200) {
+                        // Use your error interface in here
+                        throw new IOException("Invalid response from server: " + code);
+                    }
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    String line;
+
+                    final StringBuilder sb = new StringBuilder();
+                    while ((line = rd.readLine()) != null) {
+                        sb.append(line).append("\n");
+                    }
+                    onComplete.sendResponse(sb.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                }
             }
-
-            BufferedReader rd = new BufferedReader(new InputStreamReader(
-                    urlConnection.getInputStream()));
-            String line;
-
-            final StringBuilder sb = new StringBuilder();
-            while ((line = rd.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) urlConnection.disconnect();
-        }
-
-        return null;
+        }).start();
     }
 
-    @Override
-    protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
-        if (o== null) onComplete.sendResponse(null);
-        else onComplete.sendResponse(String.valueOf(o));
-    }
+
 }

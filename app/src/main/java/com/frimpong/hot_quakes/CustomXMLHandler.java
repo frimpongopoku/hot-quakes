@@ -64,8 +64,6 @@ public class CustomXMLHandler {
             Log.d(Constants.LOG_TAG,"XML String is Empty....");
             return;
         }
-//        Log.d(TAG,xmlString);
-
 
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();

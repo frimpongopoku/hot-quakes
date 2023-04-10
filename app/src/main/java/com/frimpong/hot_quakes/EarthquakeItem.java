@@ -97,6 +97,14 @@ public class EarthquakeItem {
         this.magnitude = magnitude;
     }
 
+    public int getColorRepresentation(){
+        System.out.println("REALISED THIS MAGNITUDE"+this.magnitude);
+        if(this.magnitude == 0) return R.color.black;
+        if (this.magnitude <=6) return R.color.low_magnitude;
+        else if (this.magnitude >6 && this.magnitude <=6.8)  return R.color.medium_magnitude;
+        else if (this.magnitude >6.8 )  return R.color.high_magnitude;
+        return R.color.black;
+    }
     @NonNull
     @Override
     public String toString() {

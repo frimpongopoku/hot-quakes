@@ -24,17 +24,79 @@
         android:visibility="gone"
         android:contentDescription="Close Button" />
 
+
+
     <LinearLayout
         android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+        android:layout_marginTop="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+            android:paddingBottom="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:textAppearance="@style/CardView.Dark"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textFontWeight="700"
+            android:text="Magnitude representation in colors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:textSize="18sp"
+                android:textAppearance="@style/CardView.Dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Low"
+                android:textFontWeight="700"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/low_magnitude"
+                />
+
+            <TextView
+                android:textSize="18sp"
+                android:textAppearance="@style/CardView.Dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="700"
+                android:text="Medium"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/medium_magnitude"
+                />
+            <TextView
+                android:textSize="18sp"
+                android:textAppearance="@style/CardView.Dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="700"
+                android:text="High"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/high_magnitude"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:padding="20dp"
                 android:id="@+id/notFound"

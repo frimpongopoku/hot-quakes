@@ -84,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            // Perform action after debounce time
-            // Example: Do a search based on the text in the EditText
             String searchText = searchBox.getText().toString();
             searchByText(searchText);
         }

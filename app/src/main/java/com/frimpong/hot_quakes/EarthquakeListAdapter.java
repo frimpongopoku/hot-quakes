@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +43,10 @@ public class EarthquakeListAdapter extends RecyclerView.Adapter<EarthquakeListAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         EarthquakeItem earthquakeItem = earthquakes.get(position);
+        int color = earthquakeItem.getColorRepresentation();
+        color = ContextCompat.getColor(context,color);
+        holder.title.setTextColor(color);
+//        holder.magnitudeText.setTextColor(color);
         holder.binding.setVariable(BR.earthquake, earthquakeItem);
         holder.binding.executePendingBindings();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +61,7 @@ public class EarthquakeListAdapter extends RecyclerView.Adapter<EarthquakeListAd
                 intent.putExtra(Constants.DESC,earthquakeItem.getDescription());
                 intent.putExtra(Constants.PUB_DATE,earthquakeItem.getPubDate());
                 context.startActivity(intent);
-                Log.d("PRINTING", "I just clicked an item what do you think meerhn!");
-                // TODO: when an item is clicked what should happen here
+
             }
         });
     }
@@ -68,10 +73,12 @@ public class EarthquakeListAdapter extends RecyclerView.Adapter<EarthquakeListAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ViewDataBinding binding;
-
+        TextView magnitudeText, title;
         public ViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.title = binding.getRoot().findViewById(R.id.country_name_text);
+//            this.magnitudeText = binding.getRoot().findViewById(R.id.mag_and_depth_text);
         }
     }
 }
