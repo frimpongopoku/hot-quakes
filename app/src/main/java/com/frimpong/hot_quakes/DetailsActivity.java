@@ -3,6 +3,7 @@ package com.frimpong.hot_quakes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import org.w3c.dom.Text;
 
 public class DetailsActivity extends AppCompatActivity implements  OnMapReadyCallback {
 
@@ -85,6 +88,11 @@ public class DetailsActivity extends AppCompatActivity implements  OnMapReadyCal
         earthquakeItem.setMagnitude(mag);
         earthquakeItem.setLongitude(_long);
         earthquakeItem.setLatitude(lat);
+
+        TextView descriptionTextView = findViewById(R.id.desc_title);
+        int color = earthquakeItem.getColorRepresentation();
+        color = ContextCompat.getColor(this,color);
+        descriptionTextView.setTextColor(color);
 
     }
 

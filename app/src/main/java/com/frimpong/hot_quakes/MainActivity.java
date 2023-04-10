@@ -23,11 +23,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 import java.util.List;
@@ -53,19 +56,33 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     FloatingActionButton clearButton;
     TextView notFound;
 
-
+    RelativeLayout mainDiv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressBar = findViewById(R.id.progressBar);
         notFound = findViewById(R.id.notFound);
+        mainDiv = findViewById(R.id.main_div);
         initializeToolbar();
         setupSearchBox();
         setupRecyclerView();
         setupClearButton();
 
+    }
 
+    public void notifyToRetry(){
+        Snackbar snackbar = Snackbar.make(mainDiv, "Something happened, we could not load the data appropriately...!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                earthquakeViewModel.loadEarthquakes();
+
+            }
+        });
+
+        snackbar.show();
     }
 
 
@@ -142,27 +159,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         earthquakeViewModel.getEarthquakes().observe(this, new Observer<List<EarthquakeItem>>() {
             @Override
             public void onChanged(List<EarthquakeItem> earthquakes) {
-                if(earthquakes.size() > 0) {
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                boolean isEmpty = earthquakes.size() == 0;
+                if(isEmpty) {
+                    notifyToRetry();
+                    return;
                 }
+                recyclerView.setVisibility(View.VISIBLE);
                 adapter.setEarthquakes(earthquakes);
             }
         });
     }
 
 
-    public void testClick(View v){
-        int visi = progressBar.getVisibility();
-        if (visi == View.VISIBLE) {
-            progressBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }else {
-            progressBar.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }
 
-    }
 
     private void showStartDatePickerDialog() {
         showDatePickerDialog(startYear, startMonth, startDay,null);

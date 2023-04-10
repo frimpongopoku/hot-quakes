@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,12 +65,16 @@ public class EarthquakeViewModel extends ViewModel {
 
         return results;
     }
-    private void loadEarthquakes() {
+    public void loadEarthquakes() {
         // Fetch XML data from website and parse it into a list of Earthquake objects
 
         InternetExplorer explorer =  new InternetExplorer(InternetExplorer.EARTH_QUAKE_URL, new AfterEffect() {
             @Override
             public void sendResponse(String response) {
+                if (response == null || response.isEmpty()){
+                    earthquakeList.postValue(new ArrayList<>()); // Set it to an empty array, this is how we know in the main activity that something happened
+                    return;
+                }
                 xmlHandler = new CustomXMLHandler(response, new XMLDecoded() {
                     @Override
                     public void onItemsRetrieved(List<EarthquakeItem> items) {

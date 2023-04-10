@@ -22,11 +22,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
             <TextView
+                android:id="@+id/desc_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textFontWeight="700"
                 android:textAppearance="@style/CardView.Dark"
-                android:textSize="16sp"
+                android:textSize="24sp"
                 android:layout_marginBottom="10dp"
                 android:text="DESCRIPTION" />
 
@@ -35,18 +36,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textFontWeight="700"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="10dp"
-                android:text="This is going to be where all the description is innit" />
+                android:text="Dynamic description will be inflated here...." />
             <TextView
                 android:textAppearance="@style/CardView.Dark"
                 android:id="@+id/dateText"
-                android:textColor="@color/app_red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textFontWeight="700"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:layout_marginBottom="10dp"
                 android:text="..." />
             </LinearLayout>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:textFontWeight="700"
                 android:textAppearance="@style/CardView.Dark"
-                android:textSize="16sp"
+                android:textSize="22sp"
                 android:layout_marginBottom="10dp"
                 android:text="VIEW ON MAP" />
 

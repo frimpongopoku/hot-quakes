@@ -29,8 +29,7 @@ public class InternetExplorer {
                     int code = urlConnection.getResponseCode();
 
                     if (code != 200) {
-                        // Use your error interface in here
-                        throw new IOException("Invalid response from server: " + code);
+                        onComplete.sendResponse(null);
                     }
 
                     BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -42,6 +41,7 @@ public class InternetExplorer {
                     }
                     onComplete.sendResponse(sb.toString());
                 } catch (Exception e) {
+                    onComplete.sendResponse(null);
                     e.printStackTrace();
                 } finally {
                     if (urlConnection != null) {
