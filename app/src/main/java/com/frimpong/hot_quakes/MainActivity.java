@@ -71,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        earthquakeViewModel.loadEarthquakes();
+    }
+
     public void notifyToRetry(){
         Snackbar snackbar = Snackbar.make(mainDiv, "Something happened, we could not load the data appropriately...!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
             @Override
