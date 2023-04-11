@@ -87,6 +87,47 @@
                 android:textColor="@color/high_magnitude"
                 />
         </LinearLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:textAppearance="@style/CardView.Dark"
+                android:id="@+id/sort_desc"
+                android:textSize="18sp"
+                android:textFontWeight="700"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You can sort by" />
+            <LinearLayout
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:textColor="@color/white"
+                    android:layout_marginRight="5dp"
+                    android:backgroundTint="@color/app_cyan_darker"
+                    android:layout_weight="1"
+                    android:id="@+id/deepest"
+                    android:text="Deepest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/shallowest"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/app_cyan"
+                    android:layout_weight="1"
+                    android:text="Shallowest"
+                    android:width="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </Button>
+
+
+            </LinearLayout>
     </LinearLayout>
 
         <View

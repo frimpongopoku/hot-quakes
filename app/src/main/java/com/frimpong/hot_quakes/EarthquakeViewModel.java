@@ -9,6 +9,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -34,6 +37,42 @@ public class EarthquakeViewModel extends ViewModel {
         earthquakeList.setValue(dataBank);
     }
 
+    private List<EarthquakeItem> sortInAscendingOrder(List<EarthquakeItem> items){
+
+        if (items == null) return new ArrayList<>();
+        List<EarthquakeItem> copy = new ArrayList<>(items);
+
+        Collections.sort(copy, new Comparator<EarthquakeItem>() {
+            @Override
+            public int compare(EarthquakeItem item1, EarthquakeItem item2) {
+                if(item1.getDepth() > item2.getDepth()) return 1;
+                else if (item1.getDepth() < item2.getDepth()) return -1;
+                return 0;
+            }
+        });
+        return copy;
+    }
+
+    private List<EarthquakeItem> sortInDescendingOrder(List<EarthquakeItem> items){
+        if (items == null) return new ArrayList<>();
+        List<EarthquakeItem> copy = new ArrayList<>(items);
+
+        Collections.sort(copy, new Comparator<EarthquakeItem>() {
+            @Override
+            public int compare(EarthquakeItem item1, EarthquakeItem item2) {
+                if(item2.getDepth() > item1.getDepth()) return 1;
+                else if (item2.getDepth() < item1.getDepth()) return -1;
+                return 0;
+            }
+        });
+        return copy;
+    }
+
+    public void sort(boolean inAscendingOrder) {
+        List<EarthquakeItem> items = earthquakeList.getValue();
+        if(inAscendingOrder) earthquakeList.setValue(sortInAscendingOrder(items));
+        else earthquakeList.setValue(sortInDescendingOrder(items));
+    }
 
     public List<EarthquakeItem> searchEarthquakesByTitle(String searchText) {
         List<EarthquakeItem> matchingEarthquakes = new ArrayList<>();

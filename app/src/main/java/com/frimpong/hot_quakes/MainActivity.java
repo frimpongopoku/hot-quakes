@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -54,9 +55,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     // Set a delay time (in milliseconds) for the debounce function
     private final int debounceDelay = 500;
     FloatingActionButton clearButton;
-    TextView notFound;
+    TextView notFound, sort_desc;
 
     RelativeLayout mainDiv;
+
+    Button deepestButton, shallowestButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +71,34 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setupSearchBox();
         setupRecyclerView();
         setupClearButton();
+        setupSortButtons();
 
     }
 
+
+    public void setupSortButtons(){
+        deepestButton = findViewById(R.id.deepest);
+        shallowestButton = findViewById(R.id.shallowest);
+        sort_desc = findViewById(R.id.sort_desc);
+
+        deepestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                earthquakeViewModel.sort(false);
+                sort_desc.setText("Now arranged from largest depth to smallest");
+//                Toast.makeText(MainActivity.this, "Items are arranged from the lowest depth to the highest", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        shallowestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                earthquakeViewModel.sort(true);
+//                Toast.makeText(MainActivity.this, "Items are arranged from the highest depth to the lowest", Toast.LENGTH_LONG).show();
+                sort_desc.setText("Now arranged from smallest depth to largest");
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -81,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Snackbar snackbar = Snackbar.make(mainDiv, "Something happened, we could not load the data appropriately...!", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                resetSortLabel();
+                notFound.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
                 earthquakeViewModel.loadEarthquakes();
@@ -104,15 +134,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
     }
 
+    public void resetSortLabel(){
+        sort_desc.setText("You can sort by");
+    }
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            resetSortLabel();
             String searchText = searchBox.getText().toString();
             searchByText(searchText);
         }
     };
 
     public void searchByDate (int[] start , int[] end) {
+        resetSortLabel();
         notFound.setVisibility(View.GONE);
         List<EarthquakeItem> foundItems = earthquakeViewModel.searchByDate(start, end);
         earthquakeViewModel.setEarthquakes(foundItems);
