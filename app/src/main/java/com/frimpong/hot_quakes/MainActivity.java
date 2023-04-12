@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                resetSortLabel();
                 earthquakeViewModel.reset();
                 clearButton.setVisibility(View.GONE);
                 notFound.setVisibility(View.GONE);
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // --- Here, we setup a debounce functionality that only runs the search function
+                // --- Here, we setup a debounce functionality that only runs the search function (Debouncing is what creates the effect of searching right away as soon as you stop typing)
                 // --- when a user pauses for about 500 milliseconds
                 // --- So everytime a user types, a count is started for 500ms, and when they type again, the old count is cancelled and a new one is restarted
                 // --- This will keep happening until the user actually stops typing, in which case
@@ -229,17 +230,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         final EarthquakeListAdapter adapter = new EarthquakeListAdapter(this);
         recyclerView.setAdapter(adapter);
-
+        // --- Since we are using the MVVM architecture, we setup the view model to observe any changes to the
+        // --- data, and with any changes, it should re-inflate the recycler view the new content
         earthquakeViewModel = new ViewModelProvider(this).get(EarthquakeViewModel.class);
         earthquakeViewModel.getEarthquakes().observe(this, new Observer<List<EarthquakeItem>>() {
             @Override
             public void onChanged(List<EarthquakeItem> earthquakes) {
                 progressBar.setVisibility(View.GONE);
-                boolean isEmpty = earthquakes.size() == 0;
-                if(isEmpty) {
+                if(earthquakes == null){
                     notifyToRetry();
                     return;
                 }
+
                 recyclerView.setVisibility(View.VISIBLE);
                 adapter.setEarthquakes(earthquakes);
             }

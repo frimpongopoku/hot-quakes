@@ -118,7 +118,7 @@ public class EarthquakeViewModel extends ViewModel {
             @Override
             public void sendResponse(String response) {
                 if (response == null || response.isEmpty()){
-                    earthquakeList.postValue(new ArrayList<>()); // Set it to an empty array, this is how we know in the main activity that something happened
+                    earthquakeList.postValue(null); // Set it to an empty array, this is how we know in the main activity that something happened
                     return;
                 }
                 xmlHandler = new CustomXMLHandler(response, new XMLDecoded() {

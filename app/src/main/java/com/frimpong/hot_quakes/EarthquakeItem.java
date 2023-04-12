@@ -99,7 +99,8 @@ public class EarthquakeItem {
 
     public int getColorRepresentation(){
         // So depending on the magnitude of an earthquake item, they can be given a color
-        // And this function is what generates the color. (There are 3 custom present colors defined in colors.xml: medium_magnitude, high_magnitude, low_magnitude)
+        // And this function is what generates the color. (There are 3 custom preset colors defined in colors.xml: medium_magnitude, high_magnitude, low_magnitude)
+        // So we use these ranges to  specify what is high, medium or low. Anything above/equal to 6.8 is high, and anything below/equal to 6, is low. The rest in between will be noted as medium, so they will be given the medium color
         if (this.magnitude >6 && this.magnitude <=6.8)  return R.color.medium_magnitude;
         else if (this.magnitude >6.8 )  return R.color.high_magnitude;
         return R.color.low_magnitude;
