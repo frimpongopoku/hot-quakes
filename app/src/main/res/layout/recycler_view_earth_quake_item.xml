@@ -34,15 +34,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textColor="@color/app_red"
+            android:textColor="@color/black"
             android:text="@{earthquake.pubDate}">
         </TextView>
         <TextView
             android:id="@+id/mag_and_depth_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#AFAFAF"
-
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:text="@{`Magnitude `+ String.valueOf(earthquake.magnitude)+`, Depth `+String.valueOf(earthquake.depth)}">
         </TextView>

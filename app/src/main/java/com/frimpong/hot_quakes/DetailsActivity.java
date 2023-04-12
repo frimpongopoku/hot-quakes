@@ -1,47 +1,101 @@
 package com.frimpong.hot_quakes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-public class DetailsActivity extends AppCompatActivity {
+import org.w3c.dom.Text;
+
+public class DetailsActivity extends AppCompatActivity implements  OnMapReadyCallback {
 
     private MapView mapView;
     private GoogleMap map;
+    EarthquakeItem earthquakeItem;
+    ImageButton backButton;
+
+    TextView description, dateText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        backButton = findViewById(R.id.back_button);
+        setSupportActionBar(toolbar);
+        retrievePassedItem();
+        initializeMap(savedInstanceState);
+        inflate();
 
 
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+    }
+
+    public void inflate(){
+        TextView title = findViewById(R.id.page_title);
+        title.setText(earthquakeItem.getTitle());
+        description = findViewById(R.id.description);
+        dateText = findViewById(R.id.dateText);
+        description.setText(earthquakeItem.getDescription());
+        dateText.setText(earthquakeItem.getPubDate());
+    }
+
+
+    public void initializeMap(Bundle savedInstanceState){
         // Initialize the map view
         mapView = findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+    }
 
-        // Get the GoogleMap object
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                map = googleMap;
-                // Add a marker to the map at a specific location
-                LatLng location = new LatLng(37.7749, -122.4194);
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(location)
-                        .title("Marker Title");
-                map.addMarker(markerOptions);
-                // Move the camera to the marker location
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f));
-            }
-        });
+    public void retrievePassedItem(){
+        // --- Here, all data that was passed from the previous activity is collected
+        // --- and used to rebuild a new earthquake object, so that it can be used around
+        String title ="", desc ="", pubDate ="", url="";
+        Double depth=0.0, mag=0.0, _long=0.0, lat=0.0;
+        Intent intent = getIntent();
+        if(intent == null) return;
+        if(intent.hasExtra(Constants.TITLE)) title = intent.getStringExtra(Constants.TITLE);
+        if(intent.hasExtra(Constants.DESC)) desc = intent.getStringExtra(Constants.DESC);
+        if(intent.hasExtra(Constants.PUB_DATE)) pubDate = intent.getStringExtra(Constants.PUB_DATE);
+        if(intent.hasExtra(Constants.DEPTH)) depth = intent.getDoubleExtra(Constants.DEPTH,0.0);
+        if(intent.hasExtra(Constants.MAGNITUDE)) mag = intent.getDoubleExtra(Constants.MAGNITUDE,0.0);
+        if(intent.hasExtra(Constants.URL)) url = intent.getStringExtra(Constants.URL);
+        if(intent.hasExtra(Constants.LONG)) _long = intent.getDoubleExtra(Constants.LONG,0.0);
+        if(intent.hasExtra(Constants.LAT)) lat = intent.getDoubleExtra(Constants.LAT,0.0 );
+        earthquakeItem = new EarthquakeItem(title, desc,pubDate,url);
+        earthquakeItem.setDepth(depth);
+        earthquakeItem.setMagnitude(mag);
+        earthquakeItem.setLongitude(_long);
+        earthquakeItem.setLatitude(lat);
+
+        TextView descriptionTextView = findViewById(R.id.desc_title);
+        int color = earthquakeItem.getColorRepresentation();
+        color = ContextCompat.getColor(this,color);
+        descriptionTextView.setTextColor(color);
+
     }
 
     @Override
@@ -69,4 +123,17 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
+        map = googleMap;
+
+        // --- Coordinates are planted on the map here when its ready
+        LatLng coords = new LatLng(earthquakeItem.getLatitude(), earthquakeItem.getLongitude());
+        map.addMarker(new MarkerOptions()
+                .position(coords)
+                .title(earthquakeItem.getTitle()));
+        map.moveCamera(CameraUpdateFactory.newLatLng(coords));
+
+    }
 }
