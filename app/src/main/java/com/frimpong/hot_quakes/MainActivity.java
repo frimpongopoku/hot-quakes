@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     EditText searchBox;
     // Set a delay time (in milliseconds) for the debounce function
     private final int debounceDelay = 500;
-    FloatingActionButton clearButton;
+    FloatingActionButton clearButton, landScapeDeepest, landscapeShallowest;
     TextView notFound, sort_desc;
 
     RelativeLayout mainDiv;
@@ -76,29 +77,51 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
 
+    public boolean landscapeMode(){
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    public void setupLandscapeSortButtons(){
+        landScapeDeepest = findViewById(R.id.land_deepest);
+        landscapeShallowest = findViewById(R.id.land_shallowest);
+        landScapeDeepest.setOnClickListener(descendingSort);
+        landscapeShallowest.setOnClickListener(ascendingSort);
+    }
+
     public void setupSortButtons(){
+        sort_desc = findViewById(R.id.sort_desc);
+        if(landscapeMode()){
+            sort_desc.setVisibility(View.GONE);
+            setupLandscapeSortButtons();
+            return;
+        }
         deepestButton = findViewById(R.id.deepest);
         shallowestButton = findViewById(R.id.shallowest);
-        sort_desc = findViewById(R.id.sort_desc);
 
-        deepestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                earthquakeViewModel.sort(false);
-                sort_desc.setText("Now arranged from largest depth to smallest");
-//                Toast.makeText(MainActivity.this, "Items are arranged from the lowest depth to the highest", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        shallowestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                earthquakeViewModel.sort(true);
-//                Toast.makeText(MainActivity.this, "Items are arranged from the highest depth to the lowest", Toast.LENGTH_LONG).show();
-                sort_desc.setText("Now arranged from smallest depth to largest");
-            }
-        });
+        deepestButton.setOnClickListener(descendingSort);
+        shallowestButton.setOnClickListener(ascendingSort);
     }
+
+
+
+    private View.OnClickListener descendingSort = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            earthquakeViewModel.sort(false);
+            sort_desc.setVisibility(View.VISIBLE);
+            sort_desc.setText("Now arranged from largest depth to smallest");
+        }
+    } ;
+
+    private View.OnClickListener ascendingSort = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            earthquakeViewModel.sort(true);
+            sort_desc.setVisibility(View.VISIBLE);
+            sort_desc.setText("Now arranged from smallest depth to largest");
+        }
+    } ;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -135,6 +158,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void resetSortLabel(){
+        if(landscapeMode()){
+            sort_desc.setVisibility(View.GONE);
+            return;
+        }
         sort_desc.setText("You can sort by");
     }
     private final Runnable runnable = new Runnable() {

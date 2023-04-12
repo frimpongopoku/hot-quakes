@@ -110,8 +110,6 @@ public class CustomXMLHandler {
                     }
                     EarthquakeItem earthquakeItem =  makeItem(title,description,pubDate,link,_long,_lat);
                     items.add(earthquakeItem);
-                    System.out.println(earthquakeItem);
-                    System.out.println("----------------------------");
                 }
                 eventType = parser.next();
             }

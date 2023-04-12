@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/main_div"
+    tools:context=".MainActivity">
+    <include layout="@layout/custom_toolbar" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/clearButton"
+        android:backgroundTint="@color/app_cyan"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/baseline_close_24"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:contentDescription="Close Button" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/land_deepest"
+        android:backgroundTint="@color/app_cyan_darker"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/baseline_arrow_upward_24"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="From deepest to shallowest" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/land_shallowest"
+        android:backgroundTint="@color/app_cyan"
+        android:layout_below="@+id/land_deepest"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/baseline_arrow_downward_24"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="From shallowest to deepest" />
+
+
+
+
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:paddingLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textAppearance="@style/CardView.Dark"
+            android:id="@+id/sort_desc"
+            android:textSize="18sp"
+            android:textFontWeight="700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You can sort by" />
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/top_box"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:paddingStart="20dp"-->
+<!--        android:paddingEnd="20dp"-->
+<!--            android:paddingBottom="20dp"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <TextView-->
+<!--            android:layout_marginBottom="5dp"-->
+<!--            android:textAppearance="@style/CardView.Dark"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textFontWeight="700"-->
+<!--            android:text="Magnitude representation in colors(Landscape)"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+<!--            <TextView-->
+<!--                android:textSize="18sp"-->
+<!--                android:textAppearance="@style/CardView.Dark"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Low"-->
+<!--                android:textFontWeight="700"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:textColor="@color/low_magnitude"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:textSize="18sp"-->
+<!--                android:textAppearance="@style/CardView.Dark"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textFontWeight="700"-->
+<!--                android:text="Medium"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:textColor="@color/medium_magnitude"-->
+<!--                />-->
+<!--            <TextView-->
+<!--                android:textSize="18sp"-->
+<!--                android:textAppearance="@style/CardView.Dark"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textFontWeight="700"-->
+<!--                android:text="High"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:textColor="@color/high_magnitude"-->
+<!--                />-->
+<!--        </LinearLayout>-->
+<!--            <TextView-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:textAppearance="@style/CardView.Dark"-->
+<!--                android:id="@+id/sort_desc"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textFontWeight="700"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="You can sort by" />-->
+<!--            <LinearLayout-->
+<!--                android:weightSum="2"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                <Button-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:layout_marginRight="5dp"-->
+<!--                    android:backgroundTint="@color/app_cyan_darker"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:id="@+id/deepest"-->
+<!--                    android:text="Deepest"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content">-->
+
+<!--                </Button>-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/shallowest"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:backgroundTint="@color/app_cyan"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="Shallowest"-->
+<!--                    android:width="0dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
+
+<!--                </Button>-->
+
+
+<!--            </LinearLayout>-->
+<!--    </LinearLayout>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EFEFEF"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:padding="20dp"
+                android:id="@+id/notFound"
+                android:visibility="gone"
+                android:textSize="20sp"
+                android:textAppearance="@style/CardView.Dark"
+                android:textFontWeight="700"
+                android:layout_width="match_parent"
+                android:text="Sorry, we could not find any matches..."
+                android:layout_height="match_parent">
+
+            </TextView>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+            />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
