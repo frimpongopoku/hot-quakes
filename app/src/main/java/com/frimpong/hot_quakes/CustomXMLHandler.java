@@ -35,11 +35,12 @@ public class CustomXMLHandler {
             title = titleArr[2].split(",")[0];
         }
         String[] descArr = desc.split(";");
-        String magnitude = descArr[descArr.length-1]; // BPR (could differ here) TODO: remove comment before submission
+        String magnitude = descArr[descArr.length-1];
         String depth = descArr[descArr.length-2];
         item = new EarthquakeItem(title, desc,pubDate,url);
         Double mag=0.0, dep = 0.0;
         System.out.println(desc);
+        // We retrieve magnitude and depth values from description value by splitting
         if(magnitude != null && !magnitude.isEmpty()){
             // Before split looks like this:  "Magnitude: 6.8"
                 String val = magnitude.split(":")[1];
@@ -108,11 +109,14 @@ public class CustomXMLHandler {
                         }
                         eventType = parser.next();
                     }
+                    // The values used are used to create new instance of the earth quake item and added to the list
                     EarthquakeItem earthquakeItem =  makeItem(title,description,pubDate,link,_long,_lat);
                     items.add(earthquakeItem);
                 }
                 eventType = parser.next();
             }
+            // At this point the whole XML response has been run through, and all the items have been retrieved
+            // and made into a list. The list is then transferred via the Response interface to be used in another place
             responseInterface.onItemsRetrieved(items);
         } catch (XmlPullParserException | IOException e) {
             responseInterface.onItemsRetrieved(null);

@@ -12,6 +12,7 @@ public class InternetExplorer {
     public AfterEffect onComplete;
     String url;
 
+    // A simple class that accepts a URL and presents it's response as a string via the AfterEffect callback interface
     public InternetExplorer(String url, AfterEffect onComplete){
         this.url = url;
         this.onComplete = onComplete;
@@ -29,9 +30,12 @@ public class InternetExplorer {
                     int code = urlConnection.getResponseCode();
 
                     if (code != 200) {
+                        // Response failed somehow, so notify the callback with a null value
                         onComplete.sendResponse(null);
                     }
 
+                    // Here we stream the response from the request per line
+                    // Into one bundled string, and transfer it via the callback interface(i.e. AfterEffect)
                     BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     String line;
 
@@ -39,6 +43,7 @@ public class InternetExplorer {
                     while ((line = rd.readLine()) != null) {
                         sb.append(line).append("\n");
                     }
+                    // We pass on the bundled string here
                     onComplete.sendResponse(sb.toString());
                 } catch (Exception e) {
                     onComplete.sendResponse(null);

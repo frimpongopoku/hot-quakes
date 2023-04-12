@@ -43,12 +43,17 @@ public class EarthquakeListAdapter extends RecyclerView.Adapter<EarthquakeListAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         EarthquakeItem earthquakeItem = earthquakes.get(position);
+        // --- We make use of the function defined in earthquake item to determine the color that
+        // --- an item should have, so that it can be set
         int color = earthquakeItem.getColorRepresentation();
         color = ContextCompat.getColor(context,color);
         holder.title.setTextColor(color);
-//        holder.magnitudeText.setTextColor(color);
+        // --- Here is how the actual values of each earthquake item in the the recycler view is set, in the layout. Using the MVVM architecture
         holder.binding.setVariable(BR.earthquake, earthquakeItem);
         holder.binding.executePendingBindings();
+        // --- Here we setup the onclick listener that opens a new page
+        // --- but while we do that, we pass on specific values of the just-selected item
+        // --- Which will be recollected on the next page to be used
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +83,6 @@ public class EarthquakeListAdapter extends RecyclerView.Adapter<EarthquakeListAd
             super(binding.getRoot());
             this.binding = binding;
             this.title = binding.getRoot().findViewById(R.id.country_name_text);
-//            this.magnitudeText = binding.getRoot().findViewById(R.id.mag_and_depth_text);
         }
     }
 }

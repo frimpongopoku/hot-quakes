@@ -71,6 +71,8 @@ public class DetailsActivity extends AppCompatActivity implements  OnMapReadyCal
     }
 
     public void retrievePassedItem(){
+        // --- Here, all data that was passed from the previous activity is collected
+        // --- and used to rebuild a new earthquake object, so that it can be used around
         String title ="", desc ="", pubDate ="", url="";
         Double depth=0.0, mag=0.0, _long=0.0, lat=0.0;
         Intent intent = getIntent();
@@ -126,11 +128,11 @@ public class DetailsActivity extends AppCompatActivity implements  OnMapReadyCal
 
         map = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // --- Coordinates are planted on the map here when its ready
         LatLng coords = new LatLng(earthquakeItem.getLatitude(), earthquakeItem.getLongitude());
         map.addMarker(new MarkerOptions()
                 .position(coords)
-                .title("Marker in Sydney"));
+                .title(earthquakeItem.getTitle()));
         map.moveCamera(CameraUpdateFactory.newLatLng(coords));
 
     }

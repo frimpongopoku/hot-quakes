@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         progressBar = findViewById(R.id.progressBar);
         notFound = findViewById(R.id.notFound);
         mainDiv = findViewById(R.id.main_div);
+
         initializeToolbar();
         setupSearchBox();
         setupRecyclerView();
@@ -124,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     @Override
     protected void onResume() {
+        // --- Whenever app resumes, the earthquake view model is asked to reload items. Just in case anything has changed from the API
+        // --- So that the list is updated at all times
         super.onResume();
         earthquakeViewModel.loadEarthquakes();
     }
@@ -200,7 +203,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Cancel any pending debounce action
+                // --- Here, we setup a debounce functionality that only runs the search function
+                // --- when a user pauses for about 500 milliseconds
+                // --- So everytime a user types, a count is started for 500ms, and when they type again, the old count is cancelled and a new one is restarted
+                // --- This will keep happening until the user actually stops typing, in which case
+                // --- The count would actually reach 500ms which will then run the content of (runnable) (i.e. searchByText())
                 handler.removeCallbacks(runnable);
 
                 // Schedule a new debounce action
@@ -251,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void showDatePickerDialog(int year, int month, int day, int[] minValue) {
-        calendar.set(Calendar.YEAR, 2023);
+//        calendar.set(Calendar.YEAR, 2023);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, year, month, day);
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         Calendar cal = Calendar.getInstance();
@@ -269,11 +276,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        // --- Because only one date dialog is used to retrieve two dates, the "selectedDatePickerId" is used to differentiate
+        // --- The first date (i.e. start date) from the second date (i.e. end date)
+
         if (selectedDatePickerId == START_DATE_PICKER_ID) {
             Log.d("PRINTING","You just chose date for start date");
             startYear = year;
             startMonth = month;
             startDay = dayOfMonth;
+            // --- When the first date is chosen, we fire the date picker to show again,
+            // --- but pass on the just-chosen date so that it would be used as the minimum date in the dialog when its
+            // --- opened for the second time
             selectedDatePickerId = END_DATE_PICKER_ID;
             showEndDatePickerDialog(new int[] {year,month,dayOfMonth});
         } else if (selectedDatePickerId == END_DATE_PICKER_ID) {

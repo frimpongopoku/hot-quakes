@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class EarthquakeViewModel extends ViewModel {
     private MutableLiveData<List<EarthquakeItem>> earthquakeList;
-    private List<EarthquakeItem> dataBank = new ArrayList<>();
+    private List<EarthquakeItem> dataBank = new ArrayList<>(); // Source of truth, will contain the unaltered version of all earthquake items
     CustomXMLHandler xmlHandler;
     public LiveData<List<EarthquakeItem>> getEarthquakes() {
         if (earthquakeList == null) {
@@ -54,12 +54,14 @@ public class EarthquakeViewModel extends ViewModel {
     }
 
     private List<EarthquakeItem> sortInDescendingOrder(List<EarthquakeItem> items){
+        // --- if items is empty, return an empty array still, to prevent unncessary null errors
         if (items == null) return new ArrayList<>();
         List<EarthquakeItem> copy = new ArrayList<>(items);
 
         Collections.sort(copy, new Comparator<EarthquakeItem>() {
             @Override
             public int compare(EarthquakeItem item1, EarthquakeItem item2) {
+                // --- if item2 is bigger in depth than 1, it should come first, else item1 come first
                 if(item2.getDepth() > item1.getDepth()) return 1;
                 else if (item2.getDepth() < item1.getDepth()) return -1;
                 return 0;
@@ -75,6 +77,9 @@ public class EarthquakeViewModel extends ViewModel {
     }
 
     public List<EarthquakeItem> searchEarthquakesByTitle(String searchText) {
+        // --- Here we provide a piece of a text, and just loop through all items
+        // --- that have currently been loaded in. And return all the ones that have a title
+        // --- that look like hte provided piece of text
         List<EarthquakeItem> matchingEarthquakes = new ArrayList<>();
         List<EarthquakeItem> earthquakes = dataBank;
         for (EarthquakeItem earthquake : earthquakes) {
@@ -86,6 +91,9 @@ public class EarthquakeViewModel extends ViewModel {
     }
 
     public List<EarthquakeItem> searchByDate(int[] startDate, int[] endDate) {
+        // --- Here the function expects two int arrays where each string array is in this format [day,month,year]
+        // --- The arrays are used to reconstruct proper date objects, and then
+        // --- We loop through each item that is within the given date boundaries
         List<EarthquakeItem> results = new ArrayList<>();
         List<EarthquakeItem> earthquakes = dataBank;
         try {
@@ -105,8 +113,7 @@ public class EarthquakeViewModel extends ViewModel {
         return results;
     }
     public void loadEarthquakes() {
-        // Fetch XML data from website and parse it into a list of Earthquake objects
-
+        // --- Fetch XML data from website and parse it into a list of Earthquake objects
         InternetExplorer explorer =  new InternetExplorer(InternetExplorer.EARTH_QUAKE_URL, new AfterEffect() {
             @Override
             public void sendResponse(String response) {
@@ -119,12 +126,13 @@ public class EarthquakeViewModel extends ViewModel {
                     public void onItemsRetrieved(List<EarthquakeItem> items) {
                         if (items == null) return;
                         earthquakeList.postValue(items);
-                        dataBank = items;
+                        dataBank = items; // --- This is will be our source of truth. The unsorted and altered array list that contains everything
                     }
                 });
 
             }
         });
+
         explorer.fetchDataInBackground();
 
     }
